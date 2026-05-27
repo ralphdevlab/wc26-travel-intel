@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine
 import models
+from routers import matches, cities
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -13,6 +14,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(matches.router)
+app.include_router(cities.router)
 
 @app.get("/health")
 def health():
